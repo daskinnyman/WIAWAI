@@ -22,10 +22,10 @@ jobs:
         run: tests/run-smoke-test.sh
 
       - name: ShellCheck
-        uses: koalaman/shellcheck-action@v0.9.0
-        with:
-          scandir: skills/session-recall/scripts
-          severity: warning
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          shellcheck -S warning skills/session-recall/scripts/*.sh
 
       - name: Verify all skills resolve
         run: npx skills add . --list
