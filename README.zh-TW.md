@@ -87,7 +87,9 @@ done
 
 ### 自然語言（選用）
 
-核心 `session-recall` skill 也會在 auto-invoke 時回應 `我在幹嘛` 等語句，但 **`/` 指令優先**，較不會跟其他工具衝突。
+核心 **`session-recall`** 僅在**唯讀**語句時 auto-invoke（如 `我在幹嘛`、`所有 session`），並**轉去執行對應的 `wiawai-*` skill**，本身不重複那些步驟。
+
+**寫入**請用 **`/wiawai-checkpoint`** — 不會自動 checkpoint。
 
 回應語言會跟隨你使用的語言。文件為英文；摘要可以是繁體中文或其他語言。
 

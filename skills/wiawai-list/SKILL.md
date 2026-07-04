@@ -9,4 +9,4 @@ repository: https://github.com/daskinnyman/WIAWAI
 
 # /wiawai-list
 
-Same as `/wiawai-dashboard`. Follow the instructions in the `wiawai-dashboard` skill: run `list-sessions.sh`, show the table, flag stale sessions.
+Same as `/wiawai-dashboard`. Follow every step in the **`wiawai-dashboard`** skill: run `list-sessions.sh`, show the table, flag stale sessions, offer cleanup.

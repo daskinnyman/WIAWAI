@@ -87,7 +87,9 @@ Requires the matching slash-command skills from the [install](#-install) step (`
 
 ### Natural language (optional)
 
-The core `session-recall` skill also responds to phrases like `我在幹嘛` or "what was I doing" when auto-invoked — but **`/` commands are preferred** because they do not collide with other tools.
+The core **`session-recall`** skill auto-invokes only for **read-only** phrases (e.g. `我在幹嘛`, "what are my other sessions doing") and then **follows the matching `wiawai-*` skill** — it does not duplicate those steps.
+
+For **writes**, use **`/wiawai-checkpoint`** — checkpoint is never auto-triggered.
 
 Response language follows the language you use. Documentation is in English; summaries can be in 繁體中文 or any other language.
 
@@ -148,11 +150,11 @@ More detail: [apps/cli/README.md](apps/cli/README.md) · [CLI 中文說明](apps
 ```
 WIAWAI/
   skills/
-    session-recall/           # Core skill (auto-invoke + reference)
-    wiawai-checkpoint/        # /wiawai-checkpoint
-    wiawai-recall/            # /wiawai-recall
-    wiawai-dashboard/         # /wiawai-dashboard
-    wiawai-list/              # /wiawai-list
+    session-recall/           # Spec, router, scripts (natural-language read only)
+    wiawai-checkpoint/        # /wiawai-checkpoint — executable steps
+    wiawai-recall/            # /wiawai-recall — executable steps
+    wiawai-dashboard/         # /wiawai-dashboard — executable steps
+    wiawai-list/              # /wiawai-list — alias
     session-recall/scripts/list-sessions.sh
   tests/
   evals/manual.md

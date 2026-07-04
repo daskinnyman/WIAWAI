@@ -71,7 +71,7 @@ validate_one_skill() {
     [[ -f "$ROOT/examples/sample-status.md" ]] || warn "Missing examples/sample-status.md"
   fi
 
-  if grep -q "disable-model-invocation: true" "$skill_md"; then
+  if grep -q "^disable-model-invocation: true" "$skill_md"; then
     pass "slash command skill (disable-model-invocation)"
   fi
 
