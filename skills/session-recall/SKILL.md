@@ -3,8 +3,9 @@ name: session-recall
 description: >
   Track and recall what each coding session is working on across multiple terminals.
   Slash commands: /wiawai-checkpoint, /wiawai-recall, /wiawai-dashboard, /wiawai-list.
-  Also activates on natural-language recall requests or context switches. Maintains status
-  files in ~/.agent-sessions/ and provides a cross-session dashboard.
+  Auto-invoke only for explicit read-only recall ("what was I doing", "what am I doing",
+  "session status", "我在幹嘛") or dashboard requests ("what are my other sessions doing",
+  "所有 session"). Never auto-invoke checkpoint or any write to ~/.agent-sessions/.
 author: daskinnyman
 license: MIT
 repository: https://github.com/daskinnyman/WIAWAI
@@ -97,13 +98,19 @@ Keep every section terse. The entire file must be skimmable in under 10 seconds.
 
 ### 1. Checkpoint (write)
 
-**Triggers:** user runs `/wiawai-checkpoint`, or says "checkpoint" after a significant milestone (feature done, bug fixed, major refactor, plan approved).
+**Triggers (explicit only):** user runs `/wiawai-checkpoint`, or clearly asks to save session status (e.g. "checkpoint", "save session status", "存檔").
 
-**On first use in a session:**
+**Never trigger checkpoint when:**
+- The user asks a normal coding question
+- The user only wants recall or a dashboard
+- You finished a task but the user did not ask to save status
 
-1. Determine `project`, `cwd`, `branch`, and generate a `short-id`.
-2. Create the session file at `~/.agent-sessions/<project>--<branch>--<short-id>.md`.
-3. Remember this file path for the rest of the session.
+**On first write in a session (no status file yet):**
+
+1. Tell the user what will happen: a local markdown note will be created at `~/.agent-sessions/<project>--<branch>--<short-id>.md` (local only, no upload).
+2. Ask once: "Create this local status file?" / "要建立這個本地狀態檔嗎？"
+3. Write only after the user confirms, or when they explicitly invoked `/wiawai-checkpoint` or said "checkpoint" (that counts as consent).
+4. Determine `project`, `cwd`, `branch`, generate a `short-id`, and remember the file path for the rest of the session.
 
 **On every checkpoint:**
 
@@ -115,13 +122,13 @@ Keep every section terse. The entire file must be skimmable in under 10 seconds.
    - **In Progress**: what is actively being worked on
    - **Next Steps**: immediate next actions
    - **Decisions & Gotchas**: only non-obvious items
-4. Write the file. Confirm briefly: "Checkpoint saved."
+4. Write the file. Confirm with the full path, e.g. "Updated local status file `~/.agent-sessions/my-app--feat-auth--a3f9c2.md` (local only). Current task: … Next: …"
 
-Do not checkpoint on every message — only on explicit request or meaningful progress.
+Do not checkpoint on every message — only on explicit request.
 
 ### 2. Recall (read, current session)
 
-**Triggers:** `/wiawai-recall`, or natural language such as "what was I doing", "我在幹嘛", when the user seems lost about current work.
+**Triggers:** `/wiawai-recall`, or explicit natural language: "recall", "what was I doing", "what am I doing", "session status", "我在幹嘛", "我這個 session 在幹嘛".
 
 **Steps:**
 
@@ -135,7 +142,7 @@ Do not checkpoint on every message — only on explicit request or meaningful pr
 
 **Output language:** match the user's language (English, 繁體中文, etc.).
 
-If no status file exists, summarize from conversation context and offer to create a checkpoint.
+If no status file exists, summarize from conversation context only. Offer `/wiawai-checkpoint` — do not create a file unless the user agrees.
 
 ### 3. Dashboard (read, all sessions)
 
@@ -177,14 +184,25 @@ Set `agent` in frontmatter to the platform name when known: `cursor`, `claude-co
 
 1. **Never** store secrets, API keys, or credentials in status files.
 2. Keep files small — if a section exceeds 5 bullets, trim to the most important items.
-3. On session start (first user message about recall/checkpoint), auto-create a checkpoint if none exists for this session.
+3. **Reads may be automatic; writes must always be explicit.** Never write or update a status file without the user requesting a checkpoint or confirming the first-time prompt.
 4. Status files are user-local state — do not commit them to git repos.
+5. Do not invoke this skill for unrelated questions. Answering a normal question is not a recall or checkpoint request.
 
 ## Example Interactions
 
-**User:** /wiawai-checkpoint
+**User:** /wiawai-checkpoint *(first time, no status file yet)*
 
-**Agent:** *(writes/updates status file)* Checkpoint saved. Current task: implement JWT refresh flow. Next: integration tests.
+**Agent:** *(writes file)* Updated local status file `~/.agent-sessions/my-app--feat-auth--a3f9c2.md` (local only). Current task: implement JWT refresh flow. Next: integration tests.
+
+---
+
+**User:** save session status *(first time, no status file yet)*
+
+**Agent:** I can create a local status note at `~/.agent-sessions/my-app--feat-auth--<id>.md` (stored on your machine only). Create it?
+
+**User:** yes
+
+**Agent:** *(writes file)* Updated local status file `~/.agent-sessions/my-app--feat-auth--a3f9c2.md` (local only). …
 
 ---
 

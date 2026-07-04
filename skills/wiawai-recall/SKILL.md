@@ -19,4 +19,4 @@ Recall what **this session** is doing.
 
 Match the user's language (English, 繁體中文, etc.).
 
-If no status file exists, summarize from conversation and offer `/wiawai-checkpoint`.
+If no status file exists, summarize from conversation only. Offer `/wiawai-checkpoint` to save a local status note — do not write unless the user runs that command or confirms.
