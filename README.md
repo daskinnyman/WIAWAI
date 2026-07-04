@@ -4,7 +4,7 @@
 
 **WIAWAI** (pronounced *why-uh-why*) stands for **Who I Am, Where Am I**. It is a cross-agent Session Recall skill for [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, Windsurf, Cline, Copilot, and other tools that support [Agent Skills](https://skills.sh). Each session writes a short local status file so you can resume in seconds after switching tabs or coming back later.
 
-🇹🇼 [繁體中文說明](README.zh-TW.md)
+[繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md)
 
 [Install](#-install) · [Usage](#-usage) · [How it works](#-how-it-works) · [CLI](#-cli) · [Privacy](#-privacy)
 
@@ -91,7 +91,7 @@ The core **`session-recall`** skill auto-invokes only for **read-only** phrases 
 
 For **writes**, use **`/wiawai-checkpoint`** — checkpoint is never auto-triggered.
 
-Response language follows the language you use. Documentation is in English; summaries can be in 繁體中文 or any other language.
+Response language follows the language you use. Documentation is in English; summaries can be in 繁體中文, 简体中文, or any other language.
 
 ### 🕸️ Stale sessions
 
@@ -143,7 +143,7 @@ UPDATED     PROJECT         BRANCH      TASK              AGENT   STATUS
 3 session(s) total, 1 stale (>3 days without update).
 ```
 
-More detail: [apps/cli/README.md](apps/cli/README.md) · [CLI 中文說明](apps/cli/README.zh-TW.md)
+More detail: [apps/cli/README.md](apps/cli/README.md) · [CLI 繁體中文](apps/cli/README.zh-TW.md) · [CLI 简体中文](apps/cli/README.zh-CN.md)
 
 ## 📂 Project structure
 

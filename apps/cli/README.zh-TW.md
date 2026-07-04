@@ -2,7 +2,7 @@
 
 用命令列查看 [WIAWAI](../../README.zh-TW.md) skill 寫入的 session 狀態檔。
 
-🇺🇸 [English](README.md)
+[English](README.md) · [简体中文](README.zh-CN.md)
 
 ## 概述
 
@@ -100,6 +100,7 @@ npx skills add daskinnyman/WIAWAI@session-recall -g
 
 ## 相關連結
 
-- [主 README（中文）](../../README.zh-TW.md)
+- [主 README（繁體中文）](../../README.zh-TW.md)
+- [主 README（简体中文）](../../README.zh-CN.md)
 - [Main README (English)](../../README.md)
 - [Skill 原始碼](../../skills/session-recall/SKILL.md)

@@ -21,7 +21,7 @@ Recall what **this session** is doing.
    - **In progress**: what is active right now
    - **Next step**: the single most immediate action
 
-**Output language:** match the user's language (English, 繁體中文, etc.).
+**Output language:** match the user's language (English, 繁體中文, 简体中文, etc.).
 
 If no status file exists, summarize from conversation only. Offer `/wiawai-checkpoint` — do not write a file unless the user runs that command or confirms.
 

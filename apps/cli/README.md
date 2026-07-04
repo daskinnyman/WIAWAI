@@ -2,7 +2,7 @@
 
 Command-line helper for viewing session status files written by the [WIAWAI](../../README.md) skill.
 
-🇹🇼 [繁體中文說明](README.zh-TW.md)
+[繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md)
 
 ## Overview
 
@@ -100,6 +100,7 @@ Add `-y` to skip confirmation prompts. Omit `-g` to install only in the current 
 
 ## Related
 
-- [Main README](../../README.md)
-- [Main README (中文)](../../README.zh-TW.md)
+- [Main README (English)](../../README.md)
+- [主 README（繁體中文）](../../README.zh-TW.md)
+- [主 README（简体中文）](../../README.zh-CN.md)
 - [Skill source](../../skills/session-recall/SKILL.md)

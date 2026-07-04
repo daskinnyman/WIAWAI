@@ -33,7 +33,7 @@ Agent behavior cannot be fully tested in CI. See [evals/manual.md](evals/manual.
 
 1. Keep `SKILL.md` skimmable — prefer short bullets over long prose
 2. Never instruct agents to store secrets in status files
-3. Update README.md and README.zh-TW.md if install paths or commands change
+3. Update README.md, README.zh-TW.md, and README.zh-CN.md if install paths or commands change
 4. Add or update fixtures in `tests/fixtures/` if CLI output format changes
 5. One logical change per PR when possible
 

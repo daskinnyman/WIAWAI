@@ -4,7 +4,7 @@
 
 WIAWAI 是 **Who I Am, Where Am I** 的縮寫，中文即「我是誰，我在哪？」。它是一套跨 Agent 的 Session Recall skill，適用於 [Cursor](https://cursor.com)、[Claude Code](https://docs.anthropic.com/en/docs/claude-code)、Codex、Windsurf、Cline、Copilot 等支援 [Agent Skills](https://skills.sh) 的工具。每個 session 會在本地寫入一份簡短狀態檔；切換視窗或隔一段時間回來，問一句就能在幾秒內接上進度。
 
-🇺🇸 [English README](README.md)
+[English](README.md) · [简体中文](README.zh-CN.md)
 
 [安裝](#-安裝) · [使用方式](#-使用方式) · [運作原理](#-運作原理) · [CLI](#-cli) · [隱私](#-隱私)
 
@@ -143,7 +143,7 @@ UPDATED     PROJECT         BRANCH      TASK              AGENT   STATUS
 3 session(s) total, 1 stale (>3 days without update).
 ```
 
-更多說明：[apps/cli/README.zh-TW.md](apps/cli/README.zh-TW.md)
+更多說明：[apps/cli/README.zh-TW.md](apps/cli/README.zh-TW.md) · [CLI 简体中文](apps/cli/README.zh-CN.md)
 
 ## 📂 專案結構
 
