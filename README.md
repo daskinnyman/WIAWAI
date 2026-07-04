@@ -37,10 +37,23 @@ Example recall response:
 ## 📦 Install
 
 ```bash
-npx skills add daskinnyman/WIAWAI@session-recall -g -y
+npx skills add daskinnyman/WIAWAI@session-recall
 ```
 
 No account required. The status directory is created automatically on the first checkpoint.
+
+Optional flags:
+
+| Flag | What it does |
+|---|---|
+| `-g` | Install globally (`~/.agents/skills/`) — available in all projects |
+| `-y` | Skip confirmation prompts — useful for scripts or agents |
+
+Recommended for personal use across all projects:
+
+```bash
+npx skills add daskinnyman/WIAWAI@session-recall -g
+```
 
 <details>
 <summary>Manual install</summary>

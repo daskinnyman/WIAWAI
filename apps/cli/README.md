@@ -87,8 +87,10 @@ ls ~/.agents/skills/session-recall/scripts/list-sessions.sh
 Reinstall if needed:
 
 ```bash
-npx skills add daskinnyman/WIAWAI@session-recall -g -y
+npx skills add daskinnyman/WIAWAI@session-recall -g
 ```
+
+Add `-y` to skip confirmation prompts. Omit `-g` to install only in the current project.
 
 ## Related
 

@@ -87,8 +87,10 @@ ls ~/.agents/skills/session-recall/scripts/list-sessions.sh
 必要時重新安裝：
 
 ```bash
-npx skills add daskinnyman/WIAWAI@session-recall -g -y
+npx skills add daskinnyman/WIAWAI@session-recall -g
 ```
+
+加上 `-y` 可略過確認提示。不加 `-g` 則只安裝在目前專案。
 
 ## 相關連結
 
