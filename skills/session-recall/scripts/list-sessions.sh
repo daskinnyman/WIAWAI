@@ -31,7 +31,7 @@ get_field() {
 # Human-readable relative time from ISO 8601 timestamp
 time_ago() {
   local ts="$1"
-  local now epoch then diff
+  local now epoch past diff
 
   # macOS and Linux compatible epoch conversion
   if date -j -f "%Y-%m-%dT%H:%M:%S" "${ts:0:19}" "+%s" &>/dev/null; then
@@ -40,8 +40,8 @@ time_ago() {
     epoch=$(date -d "${ts:0:19}" "+%s" 2>/dev/null || echo 0)
   fi
   now=$(date "+%s")
-  then=$epoch
-  diff=$(( now - then ))
+  past=$epoch
+  diff=$(( now - past ))
 
   if [[ $diff -lt 60 ]]; then
     echo "${diff}s ago"
