@@ -2,7 +2,7 @@
 
 **Who I Am, Where Am I** — remember what each terminal is working on, without re-reading scrollback.
 
-WIAWAI（讀作 *why-uh-why*）是 **Who I Am, Where Am I** 的縮寫，中文即「我是誰，我在哪？」。它是一套跨 Agent 的 Session Recall skill，適用於 [Cursor](https://cursor.com)、[Claude Code](https://docs.anthropic.com/en/docs/claude-code)、Codex、Windsurf、Cline、Copilot 等支援 [Agent Skills](https://skills.sh) 的工具。每個 session 會在本地寫入一份簡短狀態檔；切換分頁或隔一段時間回來，問一句就能在幾秒內接上進度。
+**WIAWAI** (pronounced *why-uh-why*) stands for **Who I Am, Where Am I**. It is a cross-agent Session Recall skill for [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, Windsurf, Cline, Copilot, and other tools that support [Agent Skills](https://skills.sh). Each session writes a short local status file so you can resume in seconds after switching tabs or coming back later.
 
 🇹🇼 [繁體中文說明](README.zh-TW.md)
 
@@ -22,9 +22,9 @@ WIAWAI keeps a lightweight status note per session — readable in under ten sec
 
 | Without WIAWAI | With WIAWAI |
 |---|---|
-| 📜 Scroll through agent output to reconstruct context | 💬 Ask `recall` and get a structured summary |
+| 📜 Scroll through agent output to reconstruct context | 💬 Run `/wiawai-recall` and get a structured summary |
 | 🤷 Unsure which project or branch this terminal belongs to | 📁 Status file records project, branch, and cwd |
-| 🪟 No overview across open sessions | 📊 `list sessions` shows all sessions on one dashboard |
+| 🪟 No overview across open sessions | 📊 `/wiawai-dashboard` shows all sessions on one dashboard |
 | 💭 Context lives only in chat history | 💾 Context persists on disk in `~/.agent-sessions/` |
 
 Example recall response:
@@ -37,45 +37,57 @@ Example recall response:
 ## 📦 Install
 
 ```bash
-npx skills add daskinnyman/WIAWAI@session-recall
+npx skills add daskinnyman/WIAWAI --skill '*' -g
 ```
 
-No account required. The status directory is created automatically on the first checkpoint.
-
-Optional flags:
-
-| Flag | What it does |
-|---|---|
-| `-g` | Install globally (`~/.agents/skills/`) — available in all projects |
-| `-y` | Skip confirmation prompts — useful for scripts or agents |
-
-Recommended for personal use across all projects:
+Installs `session-recall` plus all `/wiawai-*` slash-command skills. Omit `--skill '*'` to install only the core skill:
 
 ```bash
 npx skills add daskinnyman/WIAWAI@session-recall -g
 ```
+
+Where the skill is installed:
+
+| Scope | Cursor | Codex, Cline, and most other agents |
+|---|---|---|
+| Project (default) | `.agents/skills/<skill-name>/` | `.agents/skills/<skill-name>/` |
+| Global (`-g`) | `~/.cursor/skills/<skill-name>/` | `~/.agents/skills/<skill-name>/` |
+
+Optional: add `-y` to skip confirmation prompts. The status directory is created automatically on the first `/wiawai-checkpoint`.
 
 <details>
 <summary>Manual install</summary>
 
 ```bash
 git clone https://github.com/daskinnyman/WIAWAI.git
-ln -s "$(pwd)/skills/session-recall" ~/.agents/skills/session-recall
+cd WIAWAI
+
+for skill in session-recall wiawai-checkpoint wiawai-recall wiawai-dashboard wiawai-list; do
+  ln -sf "$(pwd)/skills/$skill" ~/.cursor/skills/$skill
+  ln -sf "$(pwd)/skills/$skill" ~/.agents/skills/$skill
+done
 ```
 
 </details>
 
 ## 🗣️ Usage
 
-Talk to your agent in plain language:
+### Commands
 
-| Trigger | Action |
+Type `/` in Agent chat to invoke WIAWAI directly:
+
+| Command | Action |
 |---|---|
-| `checkpoint` | 💾 Save or update this session's status file |
-| `recall` · `what was I doing` · `我在幹嘛` | 📝 Summarize this session: goal, progress, next step |
-| `list sessions` · `show all sessions` | 📊 Show a dashboard of all sessions on this machine |
+| `/wiawai-checkpoint` | 💾 Save or update this session's status file |
+| `/wiawai-recall` | 📝 Summarize this session: goal, progress, next step |
+| `/wiawai-dashboard` | 📊 Show a dashboard of all sessions on this machine |
+| `/wiawai-list` | 📊 Alias for `/wiawai-dashboard` |
 
-The agent also checkpoints automatically after meaningful progress. Saying `checkpoint` before switching away is recommended.
+Requires the matching slash-command skills from the [install](#-install) step (`--skill '*'`).
+
+### Natural language (optional)
+
+The core `session-recall` skill also responds to phrases like `我在幹嘛` or "what was I doing" when auto-invoked — but **`/` commands are preferred** because they do not collide with other tools.
 
 Response language follows the language you use. Documentation is in English; summaries can be in 繁體中文 or any other language.
 
@@ -108,11 +120,14 @@ checkpoint                          checkpoint
 
 ## 🖥️ CLI
 
-Run the dashboard script directly, without an agent:
+Run the dashboard script directly, without an agent. Use the path that matches how you installed:
 
-```bash
-bash ~/.agents/skills/session-recall/scripts/list-sessions.sh
-```
+| Install method | Command |
+|---|---|
+| `npx skills add` (project scope) | `bash .agents/skills/session-recall/scripts/list-sessions.sh` |
+| `npx skills add -g` on Cursor | `bash ~/.cursor/skills/session-recall/scripts/list-sessions.sh` |
+| `npx skills add -g` on Codex / Cline / etc. | `bash ~/.agents/skills/session-recall/scripts/list-sessions.sh` |
+| Cloned this repo | `bash skills/session-recall/scripts/list-sessions.sh` |
 
 Example output:
 
@@ -132,11 +147,31 @@ More detail: [apps/cli/README.md](apps/cli/README.md) · [CLI 中文說明](apps
 
 ```
 WIAWAI/
-  skills/session-recall/
-    SKILL.md                  # Agent instructions
-    scripts/list-sessions.sh  # Session dashboard script
-  apps/cli/                   # CLI documentation
+  skills/
+    session-recall/           # Core skill (auto-invoke + reference)
+    wiawai-checkpoint/        # /wiawai-checkpoint
+    wiawai-recall/            # /wiawai-recall
+    wiawai-dashboard/         # /wiawai-dashboard
+    wiawai-list/              # /wiawai-list
+    session-recall/scripts/list-sessions.sh
+  tests/
+  evals/manual.md
+  examples/
+  apps/cli/
 ```
+
+## ✅ Quality
+
+[![Validate](https://github.com/daskinnyman/WIAWAI/actions/workflows/validate.yml/badge.svg)](https://github.com/daskinnyman/WIAWAI/actions/workflows/validate.yml)
+
+Before each release we run:
+
+- `tests/validate-skill.sh` — metadata, structure, token estimate
+- `tests/run-smoke-test.sh` — CLI output with fixtures
+- ShellCheck on `list-sessions.sh`
+- Manual checklist in [evals/manual.md](evals/manual.md)
+
+Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## 🔒 Privacy
 

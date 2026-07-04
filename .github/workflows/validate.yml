@@ -1,0 +1,31 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make scripts executable
+        run: chmod +x tests/*.sh skills/session-recall/scripts/list-sessions.sh
+
+      - name: Validate skill metadata and structure
+        run: STRICT=1 tests/validate-skill.sh
+
+      - name: Smoke test list-sessions.sh
+        run: tests/run-smoke-test.sh
+
+      - name: ShellCheck
+        uses: koalaman/shellcheck-action@v0.9.0
+        with:
+          scandir: skills/session-recall/scripts
+          severity: warning
+
+      - name: Verify all skills resolve
+        run: npx skills add . --list

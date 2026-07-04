@@ -2,15 +2,36 @@
 name: session-recall
 description: >
   Track and recall what each coding session is working on across multiple terminals.
-  Use when the user says "checkpoint", "recall", "what was I doing", "session status",
-  "what am I doing", "我在幹嘛", "list sessions", "show all sessions", "what are my
-  other sessions doing", or when resuming work after a context switch. Maintains status
+  Slash commands: /wiawai-checkpoint, /wiawai-recall, /wiawai-dashboard, /wiawai-list.
+  Also activates on natural-language recall requests or context switches. Maintains status
   files in ~/.agent-sessions/ and provides a cross-session dashboard.
+author: daskinnyman
+license: MIT
+repository: https://github.com/daskinnyman/WIAWAI
+keywords:
+  - session
+  - context
+  - productivity
+  - cursor
+  - claude-code
 ---
 
 # Session Recall
 
 Help the user remember what each coding session is doing. Persist lightweight status files to a shared directory so any session can recall its own context or list all active sessions.
+
+## Slash commands
+
+Users invoke WIAWAI with `/` commands (install the matching skills from this repo):
+
+| Command | Behavior |
+|---|---|
+| `/wiawai-checkpoint` | Save or update this session's status file |
+| `/wiawai-recall` | Summarize this session |
+| `/wiawai-dashboard` | Dashboard of all sessions on this machine |
+| `/wiawai-list` | Alias for `/wiawai-dashboard` |
+
+Each command is a separate skill with `disable-model-invocation: true` so it only runs when explicitly invoked.
 
 ## State Directory
 
@@ -76,7 +97,7 @@ Keep every section terse. The entire file must be skimmable in under 10 seconds.
 
 ### 1. Checkpoint (write)
 
-**Triggers:** user says "checkpoint", or after completing a significant milestone (feature done, bug fixed, major refactor, plan approved).
+**Triggers:** user runs `/wiawai-checkpoint`, or says "checkpoint" after a significant milestone (feature done, bug fixed, major refactor, plan approved).
 
 **On first use in a session:**
 
@@ -100,7 +121,7 @@ Do not checkpoint on every message — only on explicit request or meaningful pr
 
 ### 2. Recall (read, current session)
 
-**Triggers:** "recall", "what was I doing", "what am I doing", "session status", "我在幹嘛", "我這個 session 在幹嘛", or when the user seems lost about current work.
+**Triggers:** `/wiawai-recall`, or natural language such as "what was I doing", "我在幹嘛", when the user seems lost about current work.
 
 **Steps:**
 
@@ -118,17 +139,25 @@ If no status file exists, summarize from conversation context and offer to creat
 
 ### 3. Dashboard (read, all sessions)
 
-**Triggers:** "list sessions", "show all sessions", "what are my other sessions doing", "session dashboard", "所有 session".
+**Triggers:** `/wiawai-dashboard`, `/wiawai-list`, or "what are my other sessions doing", "所有 session".
+
+Do **not** use generic phrases like "list sessions" or "show all sessions" — they collide with other tools. Point users to `/wiawai-dashboard`.
 
 **Steps:**
 
-1. Run the helper script:
+1. Run the helper script from the directory that contains this skill's `SKILL.md`:
 
 ```bash
-bash ~/.agents/skills/session-recall/scripts/list-sessions.sh
+bash scripts/list-sessions.sh
 ```
 
-If the skill is installed elsewhere, resolve the script path relative to this SKILL.md location.
+If that fails, try the installed path for your agent:
+
+| Agent / scope | Path |
+|---|---|
+| Cursor, global (`-g`) | `~/.cursor/skills/session-recall/scripts/list-sessions.sh` |
+| Codex, Cline, etc., global | `~/.agents/skills/session-recall/scripts/list-sessions.sh` |
+| Project scope (default) | `.agents/skills/session-recall/scripts/list-sessions.sh` |
 
 2. Present the output as a table sorted by last updated (script handles this).
 3. Flag sessions with `updated` older than 3 days as **stale**.
@@ -153,13 +182,13 @@ Set `agent` in frontmatter to the platform name when known: `cursor`, `claude-co
 
 ## Example Interactions
 
-**User:** checkpoint
+**User:** /wiawai-checkpoint
 
 **Agent:** *(writes/updates status file)* Checkpoint saved. Current task: implement JWT refresh flow. Next: integration tests.
 
 ---
 
-**User:** what was I doing?
+**User:** /wiawai-recall
 
 **Agent:**
 > **Goal:** Implement JWT refresh token flow for my-app (feat-auth branch).
@@ -169,7 +198,7 @@ Set `agent` in frontmatter to the platform name when known: `cursor`, `claude-co
 
 ---
 
-**User:** show all sessions
+**User:** /wiawai-dashboard
 
 **Agent:** *(runs list-sessions.sh)*
 

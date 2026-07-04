@@ -10,15 +10,14 @@ The skill stores one status file per agent session in `~/.agent-sessions/`. The 
 
 ## Usage
 
-```bash
-bash ~/.agents/skills/session-recall/scripts/list-sessions.sh
-```
+Use the path that matches how you installed the skill:
 
-If you installed from this repository:
-
-```bash
-bash skills/session-recall/scripts/list-sessions.sh
-```
+| Install method | Command |
+|---|---|
+| `npx skills add` (project scope) | `bash .agents/skills/session-recall/scripts/list-sessions.sh` |
+| `npx skills add -g` on Cursor | `bash ~/.cursor/skills/session-recall/scripts/list-sessions.sh` |
+| `npx skills add -g` on Codex / Cline / etc. | `bash ~/.agents/skills/session-recall/scripts/list-sessions.sh` |
+| Cloned this repo | `bash skills/session-recall/scripts/list-sessions.sh` |
 
 ### Example output
 
@@ -57,9 +56,9 @@ The CLI script only lists sessions. To write or read status through an agent, us
 
 | Command | Action |
 |---|---|
-| `checkpoint` | 💾 Create or update the current session's status file |
-| `recall` · `what was I doing` · `我在幹嘛` | 📝 Get a brief summary of the current session |
-| `list sessions` | 📊 Ask the agent to run this script and present the dashboard |
+| `/wiawai-checkpoint` | 💾 Create or update the current session's status file |
+| `/wiawai-recall` | 📝 Get a brief summary of the current session |
+| `/wiawai-dashboard` · `/wiawai-list` | 📊 Ask the agent to run the dashboard script |
 
 ## Requirements
 
@@ -78,10 +77,17 @@ Status files derive the project name from the git root and the branch from `git 
 
 **Script not found after install**
 
-Confirm the skill is installed:
+Check the path for your agent and install scope:
 
 ```bash
+# Cursor, global
+ls ~/.cursor/skills/session-recall/scripts/list-sessions.sh
+
+# Codex / Cline / etc., global
 ls ~/.agents/skills/session-recall/scripts/list-sessions.sh
+
+# Project scope
+ls .agents/skills/session-recall/scripts/list-sessions.sh
 ```
 
 Reinstall if needed:
