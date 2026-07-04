@@ -1,6 +1,8 @@
-# Session Recall — CLI
+# 🖥️ WIAWAI — CLI
 
-Command-line helper for viewing session status files written by the [Session Recall](../README.md) skill.
+Command-line helper for viewing session status files written by the [WIAWAI](../../README.md) skill.
+
+🇹🇼 [繁體中文說明](README.zh-TW.md)
 
 ## Overview
 
@@ -30,16 +32,16 @@ UPDATED     PROJECT         BRANCH      TASK              AGENT   STATUS
 3 session(s) total, 1 stale (>3 days without update).
 ```
 
-Columns:
+## Columns
 
 | Column | Description |
 |---|---|
-| **UPDATED** | Time since the status file was last modified |
-| **PROJECT** | Git repository name (or directory name if not in a repo) |
-| **BRANCH** | Current git branch, or `no-branch` |
-| **TASK** | First line under the "Current Task" section |
-| **AGENT** | Agent platform recorded at checkpoint (e.g. `cursor`, `claude-code`) |
-| **STATUS** | `active` if updated within 3 days; `stale` otherwise |
+| **UPDATED** | ⏱️ Time since the status file was last modified |
+| **PROJECT** | 📁 Git repository name (or directory name if not in a repo) |
+| **BRANCH** | 🌿 Current git branch, or `no-branch` |
+| **TASK** | 📌 First line under the "Current Task" section |
+| **AGENT** | 🤖 Agent platform recorded at checkpoint (e.g. `cursor`, `claude-code`) |
+| **STATUS** | ✅ `active` if updated within 3 days; ⚠️ `stale` otherwise |
 
 ## Status file location
 
@@ -55,9 +57,9 @@ The CLI script only lists sessions. To write or read status through an agent, us
 
 | Command | Action |
 |---|---|
-| `checkpoint` | Create or update the current session's status file |
-| `recall` · `what was I doing` · `我在幹嘛` | Get a brief summary of the current session |
-| `list sessions` | Ask the agent to run this script and present the dashboard |
+| `checkpoint` | 💾 Create or update the current session's status file |
+| `recall` · `what was I doing` · `我在幹嘛` | 📝 Get a brief summary of the current session |
+| `list sessions` | 📊 Ask the agent to run this script and present the dashboard |
 
 ## Requirements
 
@@ -85,10 +87,11 @@ ls ~/.agents/skills/session-recall/scripts/list-sessions.sh
 Reinstall if needed:
 
 ```bash
-npx skills add daskinnyman/HIMWAI@session-recall -g -y
+npx skills add daskinnyman/WIAWAI@session-recall -g -y
 ```
 
 ## Related
 
 - [Main README](../../README.md)
+- [Main README (中文)](../../README.zh-TW.md)
 - [Skill source](../../skills/session-recall/SKILL.md)
